@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Palazzo Versace Dubai - Dining Experiences</title>
+  <!-- Preload critical images -->
+  <link rel="preload" href="Mosaico/assets/intro/logo.gif" as="image" fetchpriority="high">
+  <link rel="preload" href="Hikayat/assets/intro/logo.gif" as="image" fetchpriority="high">
+  <link rel="stylesheet" href="landing.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="page">
+    <!-- Content -->
+    <main class="content">
+      <!-- Hotel Logo -->
+      <div class="hotel-logo">
+        <img src="palazzo-versace-dubai_logo.svg" alt="Palazzo Versace Dubai" />
+      </div>
+
+      <!-- Welcome Message -->
+      <h1 class="welcome-title">Welcome to Palazzo Versace Dubai</h1>
+
+      <!-- Our Menus Title -->
+      <h2 class="menus-title">Our Menus</h2>
+
+      <!-- Restaurant Cards -->
+      <div class="restaurant-cards">
+        <!-- Mosaico Card -->
+        <a href="/mosaico" class="restaurant-card">
+          <div class="restaurant-logo-wrapper">
+            <img src="Mosaico/assets/intro/logo.gif" alt="Mosaico" class="restaurant-logo-img" decoding="async" fetchpriority="high" />
+          </div>
+          <h3 class="restaurant-name">Mosaico</h3>
+        </a>
+
+        <!-- Hikayat Card -->
+        <a href="/hikayat" class="restaurant-card">
+          <div class="restaurant-logo-wrapper">
+            <img src="Hikayat/assets/intro/logo.gif" alt="Hikayat" class="restaurant-logo-img" decoding="async" fetchpriority="high" />
+          </div>
+          <h3 class="restaurant-name">Hikayat</h3>
+        </a>
+
+        <!-- Giardino Card -->
+        <a href="#" class="restaurant-card">
+          <div class="restaurant-logo-wrapper empty-logo"></div>
+          <h3 class="restaurant-name">Giardino</h3>
+        </a>
+
+        <!-- Vanitas Card -->
+        <a href="#" class="restaurant-card">
+          <div class="restaurant-logo-wrapper empty-logo"></div>
+          <h3 class="restaurant-name">Vanitas</h3>
+        </a>
+
+        <!-- Enigma Card -->
+        <a href="#" class="restaurant-card">
+          <div class="restaurant-logo-wrapper empty-logo"></div>
+          <h3 class="restaurant-name">Enigma</h3>
+        </a>
+
+        <!-- Q'S Bar Card -->
+        <a href="#" class="restaurant-card">
+          <div class="restaurant-logo-wrapper empty-logo"></div>
+          <h3 class="restaurant-name">Q'S Bar</h3>
+        </a>
+
+        <!-- AlMalfi Card -->
+        <a href="#" class="restaurant-card">
+          <div class="restaurant-logo-wrapper empty-logo"></div>
+          <h3 class="restaurant-name">AlMalfi</h3>
+        </a>
+
+        <!-- Gazebo Card -->
+        <a href="#" class="restaurant-card">
+          <div class="restaurant-logo-wrapper empty-logo"></div>
+          <h3 class="restaurant-name">Gazebo</h3>
+        </a>
+      </div>
+    </main>
+    
+    <!-- Copyright footer -->
+    <p class="copyright-footer">
+      <span class="copyright-link" onclick="showCredits()">© Palazzo Versace Dubai, by <span class="underline-text">PVD Team</span></span>
+    </p>
+  </div>
+  
+  <!-- Credits Popup -->
+  <div class="credits-modal" id="creditsModal" onclick="hideCredits()">
+    <div class="credits-content" onclick="event.stopPropagation()">
+      <button class="credits-close" onclick="hideCredits()">×</button>
+      <h2>Credits</h2>
+      <div class="credits-section">
+        <h3>Developed by</h3>
+        <p class="credit-name">Mahmoud Ayman</p>
+        <p class="credit-email">mahmoud.ayman@palazzoversace.ae</p>
+      </div>
+      <div class="credits-section">
+        <h3>Designs by</h3>
+        <p class="credit-name">Mubin Khan</p>
+        <p class="credit-email">mubin.khan@palazzoversace.ae</p>
+      </div>
+      <div class="credits-section">
+        <h3>Consulted by</h3>
+        <p class="credit-name">Muhammad Atif</p>
+        <p class="credit-email">m.atif@palazzo-hospitality.com</p>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Force reload when navigating back to prevent cache issues
+    window.addEventListener('pageshow', function(event) {
+      if (event.persisted) {
+        window.location.reload();
+      }
+    });
+    
+    function showCredits() {
+      document.getElementById('creditsModal').classList.add('active');
+    }
+    
+    function hideCredits() {
+      document.getElementById('creditsModal').classList.remove('active');
+    }
+  </script>
+</body>
+</html>
+

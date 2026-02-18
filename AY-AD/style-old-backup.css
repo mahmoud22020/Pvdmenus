@@ -1,0 +1,581 @@
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at top, #1b1b1f 0, #050507 55%, #000000 100%);
+  color: #f7f2e9;
+}
+
+.ayad-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.ayad-app-hidden {
+  display: none;
+}
+
+.ayad-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 32px;
+  border-bottom: 1px solid rgba(255, 215, 128, 0.2);
+  background: linear-gradient(90deg, rgba(10, 10, 12, 0.95), rgba(18, 18, 22, 0.98));
+  backdrop-filter: blur(14px);
+}
+
+.ayad-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ayad-logo {
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 215, 128, 0.7);
+  background: radial-gradient(circle at 10% 0, #f5e1a4, #b68b40 55%, #60401b 100%);
+  color: #140f07;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.ayad-brand-text h1 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ayad-brand-text p {
+  margin: 2px 0 0;
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.ayad-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.logout-btn {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 215, 128, 0.6);
+  background: transparent;
+  color: #f7f2e9;
+  padding: 6px 12px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.ayad-main {
+  flex: 1;
+  padding: 20px 32px 32px;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.section-title {
+  margin: 0 0 4px;
+  font-size: 18px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.section-subtitle {
+  margin: 0 0 18px;
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.venue-list {
+  margin-top: 8px;
+}
+
+.venue-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+.venue-card {
+  border-radius: 18px;
+  border: 1px solid rgba(255, 215, 128, 0.4);
+  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.96));
+  padding: 18px 18px 16px;
+  text-align: left;
+  color: #f7f2e9;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 18px 32px rgba(0, 0, 0, 0.75);
+}
+
+.venue-card-title {
+  font-size: 16px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.venue-card-sub {
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.venue-detail {
+  margin-top: 10px;
+}
+
+.venue-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.back-btn {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 215, 128, 0.45);
+  background: transparent;
+  color: #f7f2e9;
+  padding: 6px 12px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.venue-detail-name {
+  font-size: 16px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.venue-detail-sub {
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.ayad-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid rgba(255, 215, 128, 0.25);
+  margin-bottom: 18px;
+  overflow-x: auto;
+}
+
+.tab-btn {
+  border: none;
+  background: transparent;
+  color: #b9b1a4;
+  padding: 10px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  white-space: nowrap;
+}
+
+.tab-btn.active {
+  color: #f4e3b4;
+}
+
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: -1px;
+  height: 2px;
+  background: linear-gradient(90deg, #f8e2aa, #d39b3b);
+}
+
+.ayad-panels {
+  margin-top: 14px;
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+  gap: 16px;
+}
+
+.card {
+  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.9));
+  border-radius: 18px;
+  border: 1px solid rgba(255, 215, 128, 0.18);
+  padding: 18px 18px 16px;
+  box-shadow: 0 22px 40px rgba(0, 0, 0, 0.7);
+}
+
+.card h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.muted {
+  margin: 0;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.stats-row {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.stat-pill {
+  padding: 10px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 215, 128, 0.38);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.9));
+}
+
+.quick-actions {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.quick-actions button {
+  flex: 1 1 140px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 215, 128, 0.4);
+  background: transparent;
+  color: #f7f2e9;
+  padding: 8px 14px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.quick-actions button:hover {
+  background: linear-gradient(135deg, rgba(248, 226, 170, 0.14), rgba(209, 152, 45, 0.24));
+}
+
+.card-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.card-header-row input {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 215, 128, 0.4);
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #f7f2e9;
+  font-size: 12px;
+  min-width: 160px;
+}
+
+.card-header-row input::placeholder {
+  color: rgba(185, 177, 164, 0.7);
+}
+
+.table {
+  margin-top: 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 215, 128, 0.22);
+  max-height: 420px;
+  overflow: auto;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: minmax(0, 2.4fr) minmax(0, 1fr) minmax(0, 0.8fr) minmax(0, 0.8fr);
+  gap: 8px;
+  padding: 9px 12px;
+  font-size: 12px;
+  align-items: center;
+}
+
+.table-row.header {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.95));
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 11px;
+}
+
+.table-row:nth-child(even) {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.badge {
+  display: inline-flex;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 215, 128, 0.4);
+}
+
+.badge.green {
+  border-color: rgba(149, 214, 149, 0.9);
+  color: #b4f3b2;
+}
+
+.badge.red {
+  border-color: rgba(238, 122, 122, 0.85);
+  color: #ffc3c3;
+}
+
+.badge.gold {
+  border-color: rgba(255, 215, 128, 0.85);
+  color: #f8e2aa;
+}
+
+.appearance-form {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-row label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  opacity: 0.8;
+}
+
+.form-row input[type='text'] {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 215, 128, 0.4);
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #f7f2e9;
+  font-size: 12px;
+}
+
+.form-row.colors {
+  flex-direction: row;
+  gap: 10px;
+}
+
+.form-row.colors > div {
+  flex: 1;
+}
+
+.form-row input[type='color'] {
+  width: 100%;
+  border-radius: 999px;
+  padding: 0;
+  height: 34px;
+  border: 1px solid rgba(255, 215, 128, 0.4);
+  background: transparent;
+}
+
+.primary-btn {
+  margin-top: 8px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #f8e2aa, #d39b3b);
+  color: #17110a;
+  padding: 9px 16px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.primary-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.toast {
+  position: fixed;
+  right: 26px;
+  bottom: 26px;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 12px;
+  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.14), rgba(0, 0, 0, 0.9));
+  border: 1px solid rgba(255, 215, 128, 0.5);
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.8);
+}
+
+.toast.hidden {
+  display: none;
+}
+
+/* Full-screen login */
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top, #151518 0, #020204 60%, #000000 100%);
+  z-index: 1000;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 360px;
+  padding: 26px 22px 24px;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 215, 128, 0.4);
+  background: radial-gradient(circle at top, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.96));
+  box-shadow: 0 26px 40px rgba(0, 0, 0, 0.85);
+  text-align: center;
+}
+
+.login-logo {
+  display: inline-block;
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 215, 128, 0.8);
+  background: radial-gradient(circle at 10% 0, #f5e1a4, #b68b40 55%, #60401b 100%);
+  color: #140f07;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.login-title {
+  font-size: 17px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.login-subtitle {
+  font-size: 12px;
+  opacity: 0.75;
+  margin-bottom: 18px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.login-form input {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 215, 128, 0.55);
+  padding: 9px 13px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #f7f2e9;
+  font-size: 13px;
+}
+
+.login-form input::placeholder {
+  color: rgba(185, 177, 164, 0.7);
+}
+
+.login-form button {
+  margin-top: 2px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #f8e2aa, #d39b3b);
+  color: #17110a;
+  padding: 9px 16px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.login-form button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.login-error {
+  min-height: 16px;
+  margin-top: 4px;
+  font-size: 11px;
+  color: #ffb3b3;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  .ayad-header {
+    padding: 12px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .ayad-main {
+    padding: 12px 12px 20px;
+  }
+
+  .card-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .table-row {
+    grid-template-columns: minmax(0, 2.4fr) minmax(0, 1.6fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .table {
+    max-height: none;
+    overflow-x: auto;
+  }
+
+  .table-row {
+    grid-template-columns: minmax(160px, 2.4fr) minmax(120px, 1.6fr);
+    font-size: 11px;
+  }
+
+  .tab-btn {
+    font-size: 11px;
+    padding: 8px 10px;
+  }
+
+  .venue-btn {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+}
+

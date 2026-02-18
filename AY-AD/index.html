@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AY-AD | Palazzo Versace Dubai Menus Admin</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Full-screen login first -->
+  <div id="ayad-login-overlay" class="login-overlay">
+    <div class="login-card">
+      <div class="login-logo">AY-AD</div>
+      <div class="login-title">Palazzo Versace Dubai</div>
+      <div class="login-subtitle">Menus admin for Mosaico &amp; Hikayat</div>
+      <form id="ayad-login-form" class="login-form">
+        <input id="login-username" type="text" placeholder="Username (e.g. MOSMGR)" autocomplete="username" />
+        <input id="login-password" type="password" placeholder="Password" autocomplete="current-password" />
+        <button type="submit" id="login-submit">Login</button>
+        <div id="login-error" class="login-error"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main admin shell, hidden until login -->
+  <div id="ayad-app" class="ayad-shell ayad-app-hidden">
+    <header class="ayad-header">
+      <div class="ayad-brand">
+        <div class="ayad-logo">AY-AD</div>
+        <div class="ayad-brand-text">
+          <h1>Palazzo Versace Dubai</h1>
+          <p id="ayad-subtitle">Admin panel – select a restaurant to manage</p>
+        </div>
+      </div>
+      <div class="ayad-user">
+        <span id="ayad-user-name">Guest</span>
+        <button id="ayad-logout" class="logout-btn">Logout</button>
+      </div>
+    </header>
+
+    <main class="ayad-main">
+      <!-- Step 1: choose restaurant -->
+      <section id="venue-list" class="venue-list">
+        <h2 class="section-title">Restaurants</h2>
+        <p class="section-subtitle">Tap a restaurant to manage its menu and appearance.</p>
+        <div class="venue-card-grid">
+          <button class="venue-card" data-venue="mosaico">
+            <div class="venue-card-title">Mosaico</div>
+            <div class="venue-card-sub">All-day dining</div>
+          </button>
+          <button class="venue-card" data-venue="hikayat">
+            <div class="venue-card-title">Hikayat</div>
+            <div class="venue-card-sub">Garden &amp; Suhoor</div>
+          </button>
+        </div>
+      </section>
+
+      <!-- Step 2: manage selected restaurant -->
+      <section id="venue-detail" class="venue-detail hidden">
+        <div class="venue-detail-header">
+          <button id="back-to-venues" class="back-btn">← Restaurants</button>
+          <div class="venue-detail-text">
+            <div class="venue-detail-name" id="venue-name-label">Mosaico</div>
+            <div class="venue-detail-sub">Settings &amp; live menu</div>
+          </div>
+        </div>
+
+        <section class="ayad-tabs">
+          <button class="tab-btn active" data-tab="overview">Overview</button>
+          <button class="tab-btn" data-tab="categories">Categories</button>
+          <button class="tab-btn" data-tab="items">Items</button>
+          <button class="tab-btn" data-tab="appearance">Appearance</button>
+        </section>
+
+        <section class="ayad-panels">
+          <div class="tab-panel active" id="tab-overview">
+            <div class="card-grid">
+              <div class="card">
+                <h3>Live Status</h3>
+                <p class="muted">Today’s menu summary for this restaurant.</p>
+                <div id="overview-stats" class="stats-row"></div>
+              </div>
+              <div class="card">
+                <h3>Quick Actions</h3>
+                <div class="quick-actions">
+                  <button id="qa-refresh-menu">Refresh Guests View</button>
+                  <button id="qa-toggle-all-available">Toggle All Availability</button>
+                  <button id="qa-translate-all" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">✨ Auto Translate All</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="tab-categories">
+            <div class="page-header">
+              <h3 class="page-title">Menu Categories</h3>
+              <p class="muted">Manage categories with time availability and translations.</p>
+            </div>
+
+            <div class="action-bar">
+              <button class="btn-icon" onclick="toggleSearch('categories')" title="Search">🔍</button>
+              <button class="btn-icon" onclick="toggleFilter('categories')" title="Filter">⭐</button>
+              <button class="btn-icon btn-bulk" onclick="openBulkModal('categories')" title="Bulk Update">Bulk</button>
+              <button class="btn-icon btn-add" onclick="openCategoryModal()" title="Add">+</button>
+            </div>
+
+            <div class="panel" id="categorySearch">
+              <div class="form-group">
+                <input type="text" id="categorySearchInput" placeholder="Search categories..." oninput="searchCategories()">
+              </div>
+            </div>
+
+            <div class="panel" id="categoryFilter">
+              <div class="form-group">
+                <label>Visibility</label>
+                <select id="categoryVisibilityFilter" onchange="filterCategories()">
+                  <option value="all">All Categories</option>
+                  <option value="visible">Visible Only</option>
+                  <option value="hidden">Hidden Only</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Type</label>
+                <select id="categoryTypeFilter" onchange="filterCategories()">
+                  <option value="all">All Types</option>
+                  <option value="root">Root Categories</option>
+                  <option value="sub">Sub Categories</option>
+                </select>
+              </div>
+              <button class="btn-primary" onclick="resetCategoryFilters()">Reset Filters</button>
+            </div>
+
+            <div id="categories-table" class="table">
+              <div class="loading">Loading categories...</div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="tab-items">
+            <div class="page-header">
+              <h3 class="page-title">Menu Items</h3>
+              <p class="muted">Edit item names, descriptions and prices with day pricing & translations.</p>
+            </div>
+
+            <div class="action-bar">
+              <button class="btn-icon" onclick="toggleSearch('items')" title="Search">🔍</button>
+              <button class="btn-icon" onclick="toggleFilter('items')" title="Filter">⭐</button>
+              <button class="btn-icon btn-bulk" onclick="openBulkModal('items')" title="Bulk Update">Bulk</button>
+              <button class="btn-icon btn-add" onclick="openItemModal()" title="Add">+</button>
+            </div>
+
+            <div class="panel" id="itemSearch">
+              <div class="form-group">
+                <input type="text" id="itemSearchInput" placeholder="Search items..." oninput="searchItems()">
+              </div>
+            </div>
+
+            <div class="panel" id="itemFilter">
+              <div class="form-group">
+                <label>Category</label>
+                <select id="itemCategoryFilter" onchange="filterItems()">
+                  <option value="all">All Categories</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Availability</label>
+                <select id="itemAvailabilityFilter" onchange="filterItems()">
+                  <option value="all">All Items</option>
+                  <option value="available">Available Only</option>
+                  <option value="unavailable">Unavailable Only</option>
+                </select>
+              </div>
+              <button class="btn-primary" onclick="resetItemFilters()">Reset Filters</button>
+            </div>
+
+            <div id="items-table" class="table">
+              <div class="loading">Loading items...</div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="tab-day-pricing" style="display: none;">
+            <div class="card">
+              <h3>Day Pricing (Legacy)</h3>
+              <p class="muted">Note: Day pricing is now managed directly within each item's edit modal.</p>
+              <div id="day-pricing-list" class="table"></div>
+            </div>
+          </div>
+
+          <div class="tab-panel" id="tab-appearance">
+            <div class="card">
+              <h3>Appearance &amp; Intro</h3>
+              <p class="muted">Control logo, hero image and colors for this restaurant.</p>
+              <form id="appearance-form" class="appearance-form">
+                <div class="form-row">
+                  <label>Brand name</label>
+                  <input id="app-brand-name" type="text" />
+                </div>
+                <div class="form-row">
+                  <label>Logo URL</label>
+                  <input id="app-logo-url" type="text" />
+                </div>
+                <div class="form-row">
+                  <label>Hero image URL</label>
+                  <input id="app-hero-url" type="text" />
+                </div>
+                <div class="form-row">
+                  <label>Headline (top)</label>
+                  <input id="app-headline-top" type="text" />
+                </div>
+                <div class="form-row">
+                  <label>Headline (main)</label>
+                  <input id="app-headline-main" type="text" />
+                </div>
+                <div class="form-row">
+                  <label>Subtitle</label>
+                  <input id="app-subtitle" type="text" />
+                </div>
+                <div class="form-row colors">
+                  <div>
+                    <label>BG 1</label>
+                    <input id="app-bg1" type="color" />
+                  </div>
+                  <div>
+
+                    <label>BG 2</label>
+                    <input id="app-bg2" type="color" />
+                  </div>
+                  <div>
+                    <label>BG 3</label>
+                    <input id="app-bg3" type="color" />
+                  </div>
+                  <div>
+                    <label>Accent</label>
+                    <input id="app-accent" type="color" />
+                  </div>
+                </div>
+                <button type="submit" class="primary-btn">Save Appearance</button>
+              </form>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <div id="ayad-toast" class="toast hidden"></div>
+  </div>
+
+  <!-- Category Modal -->
+  <div class="modal" id="categoryModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="categoryModalTitle">Add Category</h3>
+        <button class="close-modal" onclick="closeCategoryModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="categoryForm">
+          <input type="hidden" id="categoryId">
+          <div class="form-group">
+            <label>Category Name *</label>
+            <input type="text" id="categoryName" required>
+          </div>
+          <div class="form-group">
+            <label>Parent Category</label>
+            <select id="categoryParent">
+              <option value="">Root Category</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Sort Order</label>
+            <input type="number" id="categorySortOrder" value="0" min="0">
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="categoryActive" checked style="width: auto; margin-right: 8px;">
+              Active
+            </label>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="categoryHasTimeAvailability" style="width: auto; margin-right: 8px;" onchange="toggleCategoryTimeFields()">
+              Enable Time Availability
+            </label>
+          </div>
+          <div id="categoryTimeFields" style="display: none;">
+            <div class="form-group">
+              <label>Available From</label>
+              <input type="time" id="categoryAvailableFrom" placeholder="08:00">
+            </div>
+            <div class="form-group">
+              <label>Available To</label>
+              <input type="time" id="categoryAvailableTo" placeholder="23:00">
+            </div>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: -8px;">Category will only be visible during this time range</p>
+          </div>
+          
+          <!-- Translations Section -->
+          <div class="translation-section">
+            <div class="translation-section-title">
+              🌐 Translations
+              <button type="button" class="btn-auto-translate" onclick="autoTranslateCategory()" style="margin-left: auto; padding: 6px 12px; font-size: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; color: white; border-radius: 6px; cursor: pointer;">
+                ✨ Auto Translate
+              </button>
+            </div>
+            
+            <div class="form-group">
+              <label>Arabic (العربية)</label>
+              <input type="text" id="categoryNameAr" placeholder="اسم الفئة بالعربية">
+            </div>
+            
+            <div class="form-group">
+              <label>Russian (Русский)</label>
+              <input type="text" id="categoryNameRu" placeholder="Название категории">
+            </div>
+            
+            <div class="form-group">
+              <label>Chinese (中文)</label>
+              <input type="text" id="categoryNameZh" placeholder="类别名称">
+            </div>
+          </div>
+          
+          <button type="submit" class="btn-primary">Save Category</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Item Modal -->
+  <div class="modal" id="itemModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="itemModalTitle">Add Menu Item</h3>
+        <button class="close-modal" onclick="closeItemModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="itemForm">
+          <input type="hidden" id="itemId">
+          <div class="form-group">
+            <label>Category *</label>
+            <select id="itemCategory" required>
+              <option value="">Select Category</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Item Name *</label>
+            <input type="text" id="itemName" required>
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="itemDescription"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Price</label>
+            <input type="number" id="itemPrice" step="0.01" min="0">
+            <label style="margin-top: 12px;">
+              <input type="checkbox" id="useDayPricing" style="width: auto; margin-right: 8px;" onchange="toggleDayPricing()">
+              Use Day-Specific Pricing
+            </label>
+          </div>
+          <div id="dayPricingSection" class="day-pricing-section" style="display: none;">
+            <h4 style="font-size: 14px; margin-bottom: 8px; color: var(--gold);">Weekly Pricing</h4>
+            <div id="dayPricingGrid" class="day-pricing-grid"></div>
+          </div>
+          <div class="form-group">
+            <label>Currency</label>
+            <input type="text" id="itemCurrency" value="AED">
+          </div>
+          <div class="form-group">
+            <label>Sort Order</label>
+            <input type="number" id="itemSortOrder" value="0" min="0">
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="itemActive" checked style="width: auto; margin-right: 8px;">
+              Active
+            </label>
+          </div>
+          
+          <!-- Translations Section -->
+          <div class="translation-section">
+            <div class="translation-section-title">
+              🌐 Translations
+              <button type="button" class="btn-auto-translate" onclick="autoTranslateItem()" style="margin-left: auto; padding: 6px 12px; font-size: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; color: white; border-radius: 6px; cursor: pointer;">
+                ✨ Auto Translate
+              </button>
+            </div>
+            
+            <div class="translation-block">
+              <label>Arabic (العربية)</label>
+              <div class="form-group" style="margin-bottom: 8px;">
+                <label style="font-size: 12px;">Item Name</label>
+                <input type="text" id="itemNameAr" placeholder="اسم العنصر">
+              </div>
+              <div class="form-group">
+                <label style="font-size: 12px;">Description</label>
+                <textarea id="itemDescriptionAr" placeholder="الوصف" rows="2"></textarea>
+              </div>
+            </div>
+            
+            <div class="translation-block">
+              <label>Russian (Русский)</label>
+              <div class="form-group" style="margin-bottom: 8px;">
+                <label style="font-size: 12px;">Item Name</label>
+                <input type="text" id="itemNameRu" placeholder="Название блюда">
+              </div>
+              <div class="form-group">
+                <label style="font-size: 12px;">Description</label>
+                <textarea id="itemDescriptionRu" placeholder="Описание" rows="2"></textarea>
+              </div>
+            </div>
+            
+            <div class="translation-block">
+              <label>Chinese (中文)</label>
+              <div class="form-group" style="margin-bottom: 8px;">
+                <label style="font-size: 12px;">Item Name</label>
+                <input type="text" id="itemNameZh" placeholder="菜品名称">
+              </div>
+              <div class="form-group">
+                <label style="font-size: 12px;">Description</label>
+                <textarea id="itemDescriptionZh" placeholder="描述" rows="2"></textarea>
+              </div>
+            </div>
+          </div>
+          
+          <button type="submit" class="btn-primary">Save Item</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bulk Update Modal -->
+  <div class="modal" id="bulkModal">
+    <div class="modal-content wide">
+      <div class="modal-header">
+        <h3 class="modal-title">Bulk Update</h3>
+        <button class="close-modal" onclick="closeBulkModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <p class="bulk-description">Upload the Excel template to create, update, or delete categories and menu items in one go. Parent/child relationships are resolved automatically.</p>
+        <div class="bulk-tabs">
+          <button class="bulk-tab active" data-mode="categories" onclick="setBulkMode('categories')">Categories</button>
+          <button class="bulk-tab" data-mode="items" onclick="setBulkMode('items')">Items</button>
+        </div>
+        <div class="bulk-actions">
+          <button type="button" class="btn-secondary" onclick="downloadBulkTemplate()">⬇ Download Excel Template</button>
+          <label class="file-upload">
+            <input type="file" id="bulkFileInput" accept=".xlsx,.xls,.csv" onchange="handleBulkFile(event)">
+            <span id="bulkFileLabel">Select Excel File</span>
+          </label>
+        </div>
+        <div class="bulk-instructions">
+          <div class="instruction-block active" data-mode="categories">
+            <h4>Categories sheet</h4>
+            <ul>
+              <li><strong>Action</strong>: Create, Update, or Delete (defaults to Create)</li>
+              <li><strong>Category ID</strong>: Required for Update/Delete</li>
+              <li><strong>Category Name</strong>: English display name</li>
+              <li><strong>Parent ID</strong> or <strong>Parent Name</strong>: leave blank for root categories</li>
+              <li><strong>Sort Order</strong>: Lower numbers float to the top</li>
+              <li><strong>Is Visible</strong> / <strong>Has Time Availability</strong>: TRUE or FALSE</li>
+              <li><strong>Available From / To</strong>: HH:MM (24h) slots for time-restricted categories</li>
+            </ul>
+          </div>
+          <div class="instruction-block" data-mode="items">
+            <h4>Items sheet</h4>
+            <ul>
+              <li><strong>Action</strong>: Create, Update, or Delete</li>
+              <li><strong>Item ID</strong>: Required for Update/Delete</li>
+              <li><strong>Item Name</strong> &amp; optional <strong>Description</strong></li>
+              <li><strong>Category ID</strong> or <strong>Category Name</strong>: determines where the item lives</li>
+              <li><strong>Price</strong> &amp; <strong>Currency</strong> (defaults to AED)</li>
+              <li><strong>Sort Order</strong>, <strong>Is Available</strong>, <strong>Use Day Pricing</strong> (TRUE/FALSE)</li>
+            </ul>
+          </div>
+        </div>
+        <div id="bulkPreview" class="bulk-preview">Upload the Excel template to see a summary here.</div>
+        <button type="button" id="bulkProcessBtn" class="btn-primary" onclick="processBulkUpload()">Run Bulk Update</button>
+        <div id="bulkSummary" class="bulk-summary"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="translate-service.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
+

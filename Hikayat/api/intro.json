@@ -1,0 +1,23 @@
+
+
+
+
+{
+  "ok": true,
+  "config": {
+    "brand_name": "Hikayat Garden Suhoor",
+    "logo_url": "assets/intro/logo.gif",
+    "hero_image_url": "assets/intro/img_69709f31c7423.jfif",
+    "headline_top": "WELCOME TO",
+    "headline_main": "HIKAYAT GARDEN SUHOOR",
+    "subtitle": "A curated ala carte suhoor experience at Palazzo Versace Dubai.",
+    "cta_text": "TAP TO VIEW SUHOOR MENU",
+    "theme": {
+      "bg1": "#c8a46a",
+      "bg2": "#b48c55",
+      "bg3": "#8a6b3b",
+      "accent": "#f1d9a5"
+    }
+  },
+  "actions": []
+}
